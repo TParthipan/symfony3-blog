@@ -1,0 +1,43 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+    #pour l'encodage du mot de passe pour l'user
+    encoders:
+        AppBundle\Entity\User:
+            algorithm: bcrypt
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        db:
+            entity:
+                class: AppBundle:User
+                
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: ~
+            provider: db
+            # sur tout le site
+            pattern: ^/ 
+            form_login:
+                # route ou chemin du formulaire d'authentification
+                login_path: app_security_login
+                #route ou chemin du traitement du formulaire d'authentification
+                check_path: app_security_login
+                default_target_path: app_default_index
+            logout:
+                #la route doit être déclarée dons routing.yml
+                path: /logout
+                target: app_default_index
+    
+    role_hierarchy:
+        # le role user est contenu dans le role admin
+        ROLE_ADMIN: [ROLE_USER]
+    
+    access_control:
+        # pour acceder a tous les page dont le chemin commence par /admin
+        #il faut le role admin
+        - {path: ^/admin, role: ROLE_ADMIN}

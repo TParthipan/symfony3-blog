@@ -1,0 +1,12 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+        <h1>{{category.name}}</h1>
+        <h2>Dernier(s) Article(s)</h2>
+        {% if articles is not empty %}
+            {% include 'article/preview.html.twig' with {"article": articles|first} only %}
+        {% else %}
+            <p>Aucun article dans {{category.name}}</p>
+        {%endif%}
+        {% endblock %}
+

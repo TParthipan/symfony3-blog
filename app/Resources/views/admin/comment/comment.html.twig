@@ -1,0 +1,31 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <h1>Commentaire pour l'article "{{article.title}}"</h1>
+    <a href="{{path('app_admin_article_list')}}">Retour à la liste d'articles</a>
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>Contenu</th>
+            <th width="200px"></th>
+        </tr>
+
+        {% for comment in article.comments %}
+            <tr>
+                <td>{{comment.id}}</td>
+                <td>{{comment.content}}</td>
+                <td>
+                    <a href="{{path('app_admin_comment_delete', {"id": comment.id})}}" class="btn btn-danger">Supprimer</a>
+                </td>
+            </tr>
+        {%else%}
+            <tr>
+                <td colspan="3" align="center">Aucun commentaire</td>
+                
+            </tr>
+        {%endfor %}
+    </table>
+{% endblock %}
+
+
+

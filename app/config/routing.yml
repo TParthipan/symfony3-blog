@@ -1,0 +1,14 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+# toutes les routes de tous les controleur contenus
+# dans le repertoire Admin seront préfixées par /admin
+admin:
+    resource: '@AppBundle/Controller/Admin'
+    type: annotation
+    prefix: /admin
+    
+# route de deconnexion
+logout: 
+    path: /logout

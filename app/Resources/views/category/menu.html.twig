@@ -1,0 +1,9 @@
+<ul class="nav navbar-nav">
+    {% for category in categories %}
+        <li>
+            <a href="{{path('app_category_display', {"id": category.id})}}">{{ category.name}}</a>
+        </li>
+    
+    {% endfor %}
+    
+</ul>

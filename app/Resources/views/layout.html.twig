@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog Symfony!{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{asset('css/style.css')}}">
+
+{% endblock %}
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- asset() pour les css -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+{% endblock %}
+{% block body %}
+    {# s'il y a un utilisateur connecté et qu'il a le role ROLE_ADMIN #}
+    {% if is_granted('ROLE_ADMIN') %}
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <a class="navbar-brand">Menu admin</a>
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="{{path('app_admin_category_list')}}">Gestion categories</a>
+                    </li>
+                    <li>
+                        <a href="{{path('app_admin_article_list')}}">Gestion articles</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    {% endif %}
+    <nav class="navbar navbar-default">
+        <div class="container">
+            {# path() retourne le chemin a partir d'un nom de route#}
+            <a class="navbar-brand" href="{{path('app_default_index')}}">Blog</a>
+            <!-- rend l'affichage de categoryController::menuAction -->
+            {{render(controller('AppBundle:Category:menu'))}}
+            <ul class="nav navbar-nav navbar-right">
+                {# app.user dans twig = utilisateur connecté #}
+                {% if app.user is not null %}
+                    <li>
+                        <a href="{{path('app_security_profile')}}">
+                            {{app.user.username}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{path('logout')}}">Deconnexion</a>
+                    </li>
+                {% else %}   
+                    <li>
+                        <a href="{{path('app_security_register')}}">Inscription</a>
+                    </li>
+                    <li>
+                        <a href="{{path('app_security_login')}}">Connexion</a>
+                    </li>
+                {%endif%}
+                <li>
+                    <a href="{{path('app_default_contact')}}">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        {% for type, flashes in app.session.flashbag.all %}
+            {% for flash in flashes %}
+            {% if type == 'error' %}{% set type ='danger' %}{% endif %}
+            <div class="alert alert-{{type}}">
+                {{flash|raw}}
+            </div>
+        {% endfor%}
+    {% endfor%}
+{% block content %}{%endblock%}
+</div>
+{%endblock%}

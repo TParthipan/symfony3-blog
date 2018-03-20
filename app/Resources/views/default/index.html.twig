@@ -1,0 +1,14 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <h1>Accueil</h1>
+    <h2>Derniers ajouts</h2>
+    {% for article in articles %}
+        {% include 'article/preview.html.twig' with {"article": article} only %}
+        {% if not loop.last %}
+            <hr>
+        {%endif%}
+
+    {% endfor %}
+{% endblock %}
+

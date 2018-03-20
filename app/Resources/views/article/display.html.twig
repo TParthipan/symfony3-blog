@@ -1,0 +1,50 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <h1>{{article.title}}</h1>
+    <article>
+        {% if article.hasImage() %}
+            <div class="thumbnail">
+                <img src="{{asset('upload/'~article.image)}}">
+            </div>
+
+        {% endif %}
+        <p>Dans <em>{{article.category}}</em>, par {{article.authorFullname}}</p>
+        <div class="well">
+            <p>{{article.description}}</p>
+        </div>
+        <div>
+            <p>{{article.content}}</p>            
+        </div>
+
+    </article>
+    <hr>
+    <h2>Commentaire</h2>
+    {% if app.user is not null %}
+        {{ form_start(form) }}
+        {{ form_row(form.content) }}
+        <div class="form-btn-group pull-right">
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+        <div class="clearfix"></div>
+        {{ form_end(form) }} 
+    {% else %}
+        <div class="alert alert-info">
+            Vous devez être connecter pour publier un commentaire
+        </div>
+    {% endif %} 
+    {% for comment in article.comments %}
+        <div class="well well-sm">
+            <h4>
+                {{comment.user.username}}
+                <small>
+                    {{comment.publishedDate|date('d/m/Y H:i:s')}}
+                </small>
+            </h4>
+            <p>{{comment.content}}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+
+

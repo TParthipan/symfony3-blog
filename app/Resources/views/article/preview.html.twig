@@ -1,0 +1,7 @@
+<article>
+    <h3><a href="{{path('app_article_display',{"id": article.id})}}">{{article.title}}</a></h3>
+    <div class="well">
+        {{article.description}}
+    </div>
+    <p>Dans <em>{{article.category}}</em>, par {{article.authorFullname}}</p>
+</article>
